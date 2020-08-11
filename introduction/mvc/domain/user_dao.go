@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+type userDao struct{}
+
 // mimicking the database
 var (
 	// take the pointer of the User, *User can be nil but not User object itself, this is more convenient if User is not found in database
@@ -15,10 +17,13 @@ var (
 		67:  {ID: 67, FirstName: "Rafael", LastName: "Nadal", Email: "rnadal@yahoo.com.tw"},
 		88:  {ID: 88, FirstName: "Novak", LastName: "Djokovic", Email: "novakD@gmail.com"},
 	}
+
+	UserDao userDao
 )
 
-func GetUser(userID int64) (*User, *utils.ApplicationError) {
+func (u *userDao) GetUser(userID int64) (*User, *utils.ApplicationError) {
 	// extract the user data, if not found, will be nil
+	fmt.Println("Accessing the database....")
 	user := users[userID]
 	if user != nil {
 		return user, nil

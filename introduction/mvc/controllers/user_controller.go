@@ -32,7 +32,9 @@ func GetUser(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	// send the userID to the service, then service will call the model(domain) to extract the userID from the database
-	user, appliErr := services.GetUser(userID)
+	// instead of defining a public function in the package, implement it as a method under a type instead
+	s := services.UserService
+	user, appliErr := s.GetUser(userID)
 	if appliErr != nil {
 		// log.Fatalf("something went wrong... %v\n", err)
 		// fmt.Printf("User with %v was not found...\n", userID)
