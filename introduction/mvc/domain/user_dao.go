@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+// define an interface that has GetUser() method implemented
+type userServiceInterface interface {
+	GetUser(int64) (*User, *utils.ApplicationError)
+}
+
 type userDao struct{}
 
 // mimicking the database
@@ -18,8 +23,12 @@ var (
 		88:  {ID: 88, FirstName: "Novak", LastName: "Djokovic", Email: "novakD@gmail.com"},
 	}
 
-	UserDao userDao
+	UserDao userServiceInterface
 )
+
+func init() {
+	UserDao = &userDao{}
+}
 
 func (u *userDao) GetUser(userID int64) (*User, *utils.ApplicationError) {
 	// extract the user data, if not found, will be nil
